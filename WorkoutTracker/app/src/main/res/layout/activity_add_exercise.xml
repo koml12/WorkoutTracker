@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_add_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.example.mohit31.workouttracker.Activities.AddExerciseActivity">
+
+    <EditText
+            android:id="@+id/et_exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/exercise_name"/>
+
+    <EditText
+            android:id="@+id/et_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_exercise_name"
+            android:hint="@string/reps"
+            android:inputType="number"/>
+
+    <EditText
+            android:id="@+id/et_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_exercise_name"
+            android:layout_toEndOf="@id/et_reps"
+            android:hint="@string/sets"
+            android:inputType="number"/>
+
+    <EditText
+            android:id="@+id/et_rest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_reps"
+            android:hint="@string/rest_time"
+            android:inputType="number"/>
+
+    <Button
+            android:id="@+id/btn_add_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_rest_time"
+            android:text="@string/add_exercise"/>
+
+
+
+</RelativeLayout>

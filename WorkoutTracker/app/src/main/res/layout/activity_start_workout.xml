@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_start_workout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.example.mohit31.workouttracker.Activities.StartWorkoutActivity">
+
+    <TextView
+            android:id="@+id/tv_start_workout_exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/tv_start_workout_reps_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_start_workout_exercise_name" />
+
+    <TextView
+            android:id="@+id/tv_start_workout_rest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_start_workout_exercise_name"
+            android:layout_toEndOf="@id/tv_start_workout_reps_sets"/>
+
+    <TextView
+            android:id="@+id/tv_start_workout_sets_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_start_workout_reps_sets"/>
+
+    <Button
+            android:id="@+id/btn_start_workout_set_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_completed"
+            android:layout_below="@id/tv_start_workout_reps_sets"
+            android:layout_toEndOf="@id/tv_start_workout_sets_remaining"/>
+
+    <TextView
+            android:id="@+id/tv_start_workout_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_start_workout_sets_remaining"/>
+
+    <Button
+            android:id="@+id/btn_start_workout_next_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_exercise"
+            android:layout_below="@id/tv_start_workout_timer"/>
+
+    <TextView
+            android:id="@+id/tv_start_workout_workout_completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="@string/workout_complete"/>
+
+
+</RelativeLayout>
