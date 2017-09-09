@@ -11,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.example.mohit31.workouttracker.Adapters.WorkoutViewAdapter;
+import com.example.mohit31.workouttracker.Database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.Database.WorkoutViewDbHelper;
 import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.Utils.DatabaseMethods;
@@ -28,20 +30,27 @@ public class WorkoutViewActivity extends AppCompatActivity {
 
         mStartWorkoutButton = (Button) findViewById(R.id.btn_start_workout);
 
+
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
-        SQLiteDatabase mDatabase = helper.getWritableDatabase();
+        final SQLiteDatabase mDatabase = helper.getWritableDatabase();
         Cursor cursor = DatabaseMethods.getAllItems(mDatabase);
+
+
 
         RecyclerView exerciseRecyclerView = (RecyclerView) findViewById(R.id.rv_workout_view);
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        WorkoutViewAdapter mAdapter = new WorkoutViewAdapter(getApplicationContext(), cursor);
+        final WorkoutViewAdapter mAdapter = new WorkoutViewAdapter(getApplicationContext(), cursor);
         exerciseRecyclerView.setAdapter(mAdapter);
 
 
         mStartWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mAdapter.getItemCount() == 0) {
+                    Toast.makeText(getApplicationContext(), "No exercises added yet!", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), StartWorkoutActivity.class);
                 startActivity(intent);
             }

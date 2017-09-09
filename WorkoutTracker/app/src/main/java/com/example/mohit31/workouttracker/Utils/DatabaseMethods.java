@@ -13,7 +13,8 @@ public class DatabaseMethods {
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS,
-                WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME,
+                WorkoutViewContract.WorkoutViewEntry._ID
         };
         return database.query(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME,
                 columns,

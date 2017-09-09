@@ -10,4 +10,6 @@
     <string name="set_completed">Set Completed</string>
     <string name="next_exercise">Next Exercise</string>
     <string name="workout_complete">Workout complete!</string>
+    <string name="update_exercise">Update Exercise</string>
+    <string name="delete_exercise">Delete</string>
 </resources>

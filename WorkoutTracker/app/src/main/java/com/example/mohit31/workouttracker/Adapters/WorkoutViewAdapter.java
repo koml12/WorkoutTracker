@@ -1,13 +1,16 @@
 package com.example.mohit31.workouttracker.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.example.mohit31.workouttracker.Activities.EditExerciseActivity;
 import com.example.mohit31.workouttracker.Database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.R;
 
@@ -15,8 +18,6 @@ import com.example.mohit31.workouttracker.R;
  * Created by mohit31 on 8/30/17.
  */
 
-
-// TODO: Click listener for list items; will take the user to the edit exercise activity,
 
 public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.WorkoutViewViewHolder>{
     private Context mContext;
@@ -36,11 +37,36 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         TextView mRepsSetsTextView;
         TextView mRestTimeTextView;
 
-        public WorkoutViewViewHolder(View itemView) {
+        public WorkoutViewViewHolder(final View itemView) {
             super(itemView);
             mExerciseNameTextView = (TextView) itemView.findViewById(R.id.tv_exercise_name);
             mRepsSetsTextView = (TextView) itemView.findViewById(R.id.tv_exercise_reps_sets);
             mRestTimeTextView = (TextView) itemView.findViewById(R.id.tv_exercise_rest);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    /* Gets all the data from the TextViews and puts them in a Bundle to send to the next Activity.
+                     * NOTE: reps, sets, and rest time are now being stored as Strings, not ints as they usually are.
+                     */
+                    String exerciseName = mExerciseNameTextView.getText().toString();
+                    String[] setsAndReps = mRepsSetsTextView.getText().toString().split("x");
+                    String sets = setsAndReps[0];
+                    String reps = setsAndReps[1];
+                    String[] restTimeArray = mRestTimeTextView.getText().toString().split(" ", 0);
+                    mExerciseDbCursor.moveToPosition(getAdapterPosition());
+                    String id = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
+
+                    Intent intent = new Intent(mContext, EditExerciseActivity.class);
+                    intent.putExtra("EXERCISE_NAME", exerciseName);
+                    intent.putExtra("REPS", reps);
+                    intent.putExtra("SETS", sets);
+                    intent.putExtra("REST_TIME", restTimeArray[0]);
+                    intent.putExtra("EXERCISE_ID", id);
+                    mContext.startActivity(intent);
+
+                }
+            });
         }
     }
 
@@ -67,6 +93,10 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         setExerciseName(holder.mExerciseNameTextView);
         setRepsAndSets(holder.mRepsSetsTextView);
         setRestTime(holder.mRestTimeTextView);
+
+        //long itemID = mExerciseDbCursor.getLong(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
+        //holder.itemView.setTag(itemID);
+
     }
 
 
@@ -99,10 +129,10 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
 
 
     /* Takes in a new cursor, and updates the global adapter cursor to reflect that.
-     * Usage: When we update the database, but do not want to reload the entire activity at one time. This method jsut
-     *        refreshes the RecyclerView
+     * Usage: When we update the database, but do not want to reload the entire activity at one time. This method just
+     *        refreshes the RecyclerView.
      */
-    public void swapCursor(Cursor newCursor) {
+    public Cursor swapCursor(Cursor newCursor) {
         if (mExerciseDbCursor != null) {
             mExerciseDbCursor.close();
         }
@@ -110,5 +140,6 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         if (newCursor != null) {
             notifyDataSetChanged();
         }
+        return mExerciseDbCursor;
     }
 }

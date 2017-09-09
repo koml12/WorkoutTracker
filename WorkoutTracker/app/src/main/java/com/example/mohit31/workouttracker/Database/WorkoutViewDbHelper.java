@@ -9,13 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class WorkoutViewDbHelper extends SQLiteOpenHelper {
 
-    private static final String CREATE_DATABASE = "CREATE TABLE " + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME + " ("
-            + WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME + " TEXT PRIMARY KEY, "
+    public final String CREATE_DATABASE = "CREATE TABLE " + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME + " ("
+            + WorkoutViewContract.WorkoutViewEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME + " TEXT, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME + " INTEGER)";
 
-    private static final String DELETE_DATABASE = "DROP TABLE " + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME;
+    public final String DELETE_DATABASE = "DROP TABLE " + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME;
 
     private static final String DATABASE_NAME = "workoutInfo.db";
     private static int DATABASE_VERSION = 1;
