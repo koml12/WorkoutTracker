@@ -30,10 +30,14 @@ public class WorkoutViewActivity extends AppCompatActivity {
 
         mStartWorkoutButton = (Button) findViewById(R.id.btn_start_workout);
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        final int key = extras.getInt("WORKOUT_KEY");
+
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
         final SQLiteDatabase mDatabase = helper.getWritableDatabase();
-        Cursor cursor = DatabaseMethods.getAllItems(mDatabase);
+        Cursor cursor = DatabaseMethods.getExercisesForWorkout(mDatabase, key);
 
 
 
@@ -62,6 +66,7 @@ public class WorkoutViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddExerciseActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
                 startActivity(intent);
             }
         });

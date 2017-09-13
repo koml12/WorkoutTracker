@@ -32,6 +32,10 @@ public class AddExerciseActivity extends AppCompatActivity {
         mRestTimeEditText = (EditText) findViewById(R.id.et_rest_time);
         mAddExerciseButton = (Button) findViewById(R.id.btn_add_exercise);
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        final int key = extras.getInt("WORKOUT_KEY");
+
         WorkoutViewDbHelper dbHelper = new WorkoutViewDbHelper(this);
         final SQLiteDatabase database = dbHelper.getWritableDatabase();
 
@@ -55,9 +59,10 @@ public class AddExerciseActivity extends AppCompatActivity {
                 int setsInt = Integer.parseInt(setsString);
                 int restTimeInt = Integer.parseInt(restTimeString);
 
-                addExercise(exerciseName, repsInt, setsInt, restTimeInt, database);
+                addExercise(exerciseName, repsInt, setsInt, restTimeInt, key, database);
 
                 Intent intent = new Intent(getApplicationContext(), WorkoutViewActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
                 startActivity(intent);
 
             }
@@ -66,12 +71,13 @@ public class AddExerciseActivity extends AppCompatActivity {
     }
 
 
-    public long addExercise(String name, int reps, int sets, int rest, SQLiteDatabase database) {
+    public long addExercise(String name, int reps, int sets, int rest, int key, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME, name);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS, reps);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS, sets);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME, rest);
+        contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY, key);
 
         return database.insert(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, null, contentValues);
     }

@@ -12,4 +12,7 @@
     <string name="workout_complete">Workout complete!</string>
     <string name="update_exercise">Update Exercise</string>
     <string name="delete_exercise">Delete</string>
+    <string name="title_activity_workout_list">WorkoutListActivity</string>
+    <string name="workout_name">Workout Name</string>
+    <string name="add_workout">Add Workout</string>
 </resources>
