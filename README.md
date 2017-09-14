@@ -10,3 +10,7 @@ Android app for tracking your workouts
 + Users get a notification when their rest time is up.
 + Add weight logging during/after exercise has been completed (is it possible to make a list of weights for progression purposes?)
 + Make the app not ugly.
+
+# Bugs (9/13/17)
++ Editing exercises still doesn't work all the time, not sure why
++ When you start a workout, it gets all exercises, not only the ones that match with the key
