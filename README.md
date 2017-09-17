@@ -2,9 +2,8 @@
 Android app for tracking your workouts
 
 # Update (9/13/17)
-+ Added another table to the database that holds workout names and "keys" that are unique to each workout (auto generated, but ended up being 1,2,3,...)
-+ Exercises have a corresponding "key" to their workout, which enables selection of all exercises that are part of a workout with a simple SQL query (i.e. WHERE "key" = key)
-+ The app now launches on a list of all the user's workouts, and the user can click on workouts to view the exercises in them and start their workouts
++ Fixed bug where trying to edit an exercise didn't work all the time, required a simple database delete and restart because the tables and structure of the database changed last time, so some entries in the database did not reflect that.
++ Fixed bug where all exercises would show when the user started the workout by passing the workout key across all activities relating to it.
 
 # To-Do (9/13/17)
 + Users get a notification when their rest time is up.
@@ -12,5 +11,3 @@ Android app for tracking your workouts
 + Make the app not ugly.
 
 # Bugs (9/13/17)
-+ Editing exercises still doesn't work all the time, not sure why
-+ When you start a workout, it gets all exercises, not only the ones that match with the key
