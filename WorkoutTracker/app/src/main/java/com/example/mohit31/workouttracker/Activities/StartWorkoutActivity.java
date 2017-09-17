@@ -44,9 +44,11 @@ public class StartWorkoutActivity extends AppCompatActivity {
         mSetCompletedButton = (Button) findViewById(R.id.btn_start_workout_set_completed);
         mNextExerciseButton = (Button) findViewById(R.id.btn_start_workout_next_exercise);
 
+        int key = getIntent().getExtras().getInt("WORKOUT_KEY");
+
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(this);
         SQLiteDatabase database = helper.getReadableDatabase();
-        final Cursor cursor = DatabaseMethods.getAllItems(database);
+        final Cursor cursor = DatabaseMethods.getExercisesForWorkout(database, key);
 
 
 

@@ -3,9 +3,7 @@ package com.example.mohit31.workouttracker.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +22,10 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
     private Cursor mExerciseDbCursor;
 
 
-
     public WorkoutViewAdapter(Context context, Cursor cursor) {
         mContext = context;
         mExerciseDbCursor = cursor;
     }
-
 
 
     class WorkoutViewViewHolder extends RecyclerView.ViewHolder {
@@ -37,7 +33,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         TextView mRepsSetsTextView;
         TextView mRestTimeTextView;
 
-        public WorkoutViewViewHolder(final View itemView) {
+        WorkoutViewViewHolder(final View itemView) {
             super(itemView);
             mExerciseNameTextView = (TextView) itemView.findViewById(R.id.tv_exercise_name);
             mRepsSetsTextView = (TextView) itemView.findViewById(R.id.tv_exercise_reps_sets);
@@ -56,6 +52,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
                     String[] restTimeArray = mRestTimeTextView.getText().toString().split(" ", 0);
                     mExerciseDbCursor.moveToPosition(getAdapterPosition());
                     String id = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
+                    int key = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY));
 
                     Intent intent = new Intent(mContext, EditExerciseActivity.class);
                     intent.putExtra("EXERCISE_NAME", exerciseName);
@@ -63,6 +60,8 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
                     intent.putExtra("SETS", sets);
                     intent.putExtra("REST_TIME", restTimeArray[0]);
                     intent.putExtra("EXERCISE_ID", id);
+                    intent.putExtra("WORKOUT_KEY", key);
+
                     mContext.startActivity(intent);
 
                 }
@@ -93,10 +92,6 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         setExerciseName(holder.mExerciseNameTextView);
         setRepsAndSets(holder.mRepsSetsTextView);
         setRestTime(holder.mRestTimeTextView);
-
-        //long itemID = mExerciseDbCursor.getLong(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
-        //holder.itemView.setTag(itemID);
-
     }
 
 

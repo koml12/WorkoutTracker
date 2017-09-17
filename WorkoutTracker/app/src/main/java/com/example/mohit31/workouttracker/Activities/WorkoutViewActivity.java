@@ -9,17 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.example.mohit31.workouttracker.Adapters.WorkoutViewAdapter;
-import com.example.mohit31.workouttracker.Database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.Database.WorkoutViewDbHelper;
 import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.Utils.DatabaseMethods;
 
 public class WorkoutViewActivity extends AppCompatActivity {
-    private Button mStartWorkoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +27,23 @@ public class WorkoutViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mStartWorkoutButton = (Button) findViewById(R.id.btn_start_workout);
+        Button mStartWorkoutButton = (Button) findViewById(R.id.btn_start_workout);
+        Button mToWorkoutListButton = (Button) findViewById(R.id.btn_to_workout_list);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        final int key = extras.getInt("WORKOUT_KEY");
 
+        final int key = extras.getInt("WORKOUT_KEY");
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
         final SQLiteDatabase mDatabase = helper.getWritableDatabase();
         Cursor cursor = DatabaseMethods.getExercisesForWorkout(mDatabase, key);
-
-
 
         RecyclerView exerciseRecyclerView = (RecyclerView) findViewById(R.id.rv_workout_view);
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final WorkoutViewAdapter mAdapter = new WorkoutViewAdapter(getApplicationContext(), cursor);
         exerciseRecyclerView.setAdapter(mAdapter);
-
 
         mStartWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +53,17 @@ public class WorkoutViewActivity extends AppCompatActivity {
                     return;
                 }
                 Intent intent = new Intent(getApplicationContext(), StartWorkoutActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
                 startActivity(intent);
+            }
+        });
+
+
+        mToWorkoutListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), WorkoutListActivity.class));
+
             }
         });
 
@@ -71,8 +78,4 @@ public class WorkoutViewActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
 }

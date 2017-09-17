@@ -41,8 +41,8 @@ public class EditExerciseActivity extends AppCompatActivity {
         String reps = extras.getString("REPS");
         String sets = extras.getString("SETS");
         String restTime = extras.getString("REST_TIME");
+        final int key = extras.getInt("WORKOUT_KEY");
         final String id = extras.getString("EXERCISE_ID");
-
 
         mExerciseNameEditText.setText(exerciseName);
         mRepsEditText.setText(reps);
@@ -81,7 +81,9 @@ public class EditExerciseActivity extends AppCompatActivity {
 
                 database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, contentValues, "_id = " + String.valueOf(id), null);
 
-                startActivity(new Intent(getApplicationContext(), WorkoutViewActivity.class));
+                Intent intent = new Intent(getApplicationContext(), WorkoutViewActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
+                startActivity(intent);
             }
         });
 
@@ -91,7 +93,10 @@ public class EditExerciseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 database.delete(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, "_id = " + String.valueOf(id), null);
 
-                startActivity(new Intent(getApplicationContext(), WorkoutViewActivity.class));
+                Intent intent = new Intent(getApplicationContext(), WorkoutViewActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
+                startActivity(intent);
+
             }
         });
     }
