@@ -1,12 +1,16 @@
 # WorkoutTracker
 Android app for tracking your workouts
 
-# Update (9/5/17)
-+ Basic app completed. Users can enter exercises, with the corresponding amount of sets, reps per set, and rest time in between sets (in seconds). The app then can guide the user through the workout, keeping track of the sets completed as well as timing the rest time in between sets for the user.
-+ Design is not the primary focus necessarily for the beginning stages of the app. The focus is more on the functionality of the app and how the different parts behave.
+# Update (9/13/17)
++ Added another table to the database that holds workout names and "keys" that are unique to each workout (auto generated, but ended up being 1,2,3,...)
++ Exercises have a corresponding "key" to their workout, which enables selection of all exercises that are part of a workout with a simple SQL query (i.e. WHERE "key" = key)
++ The app now launches on a list of all the user's workouts, and the user can click on workouts to view the exercises in them and start their workouts
 
-# To-Do (9/5/17)
-+ Add click listeners to exercises in the workout view, that take the user to an activity where they can edit the fields of the exercise.
-+ Add an option for multiple workouts (will probably have to change the database a bit to make this work).
+# To-Do (9/13/17)
 + Users get a notification when their rest time is up.
++ Add weight logging during/after exercise has been completed (is it possible to make a list of weights for progression purposes?)
 + Make the app not ugly.
+
+# Bugs (9/13/17)
++ Editing exercises still doesn't work all the time, not sure why
++ When you start a workout, it gets all exercises, not only the ones that match with the key
