@@ -14,7 +14,6 @@
                 android:name=".Activities.WorkoutViewActivity"
                 android:label="@string/title_activity_workout_view"
                 android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity android:name=".Activities.AddExerciseActivity">
         </activity>
@@ -33,6 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.AddWorkoutActivity">
+        </activity>
+        <activity android:name=".Activities.WorkoutSettingsActivity">
         </activity>
     </application>
 

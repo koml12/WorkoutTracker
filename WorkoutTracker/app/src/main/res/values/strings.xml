@@ -16,4 +16,6 @@
     <string name="workout_name">Workout Name</string>
     <string name="add_workout">Add Workout</string>
     <string name="to_workout_list">To Workout List</string>
+    <string name="workout_settings">Workout Settings</string>
+    <string name="delete_workout">Delete Workout</string>
 </resources>

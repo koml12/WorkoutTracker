@@ -10,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,6 +23,8 @@ import com.example.mohit31.workouttracker.Utils.DatabaseMethods;
 
 public class WorkoutViewActivity extends AppCompatActivity {
 
+    private int key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +32,15 @@ public class WorkoutViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         Button mStartWorkoutButton = (Button) findViewById(R.id.btn_start_workout);
         Button mToWorkoutListButton = (Button) findViewById(R.id.btn_to_workout_list);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        final int key = extras.getInt("WORKOUT_KEY");
+        key = extras.getInt("WORKOUT_KEY");
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
         final SQLiteDatabase mDatabase = helper.getWritableDatabase();
@@ -77,5 +84,26 @@ public class WorkoutViewActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(getApplicationContext());
+        inflater.inflate(R.menu.workout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_workout_settings:
+                Intent intent = new Intent(getApplicationContext(), WorkoutSettingsActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
