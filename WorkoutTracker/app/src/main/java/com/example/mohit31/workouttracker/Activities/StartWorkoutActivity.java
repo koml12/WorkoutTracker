@@ -1,14 +1,16 @@
 package com.example.mohit31.workouttracker.Activities;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.mohit31.workouttracker.Database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.Database.WorkoutViewDbHelper;
 import com.example.mohit31.workouttracker.R;
@@ -44,13 +46,11 @@ public class StartWorkoutActivity extends AppCompatActivity {
         mSetCompletedButton = (Button) findViewById(R.id.btn_start_workout_set_completed);
         mNextExerciseButton = (Button) findViewById(R.id.btn_start_workout_next_exercise);
 
-        int key = getIntent().getExtras().getInt("WORKOUT_KEY");
+        final int key = getIntent().getExtras().getInt("WORKOUT_KEY");
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(this);
         SQLiteDatabase database = helper.getReadableDatabase();
         final Cursor cursor = DatabaseMethods.getExercisesForWorkout(database, key);
-
-
 
         if (cursor.moveToFirst()) {
             int[] exerciseData = updateExercise(cursor, mExerciseNameTextView, mRepsSetsTextView, mRestTimeTextView, mSetsRemainingTextView);
@@ -67,6 +67,10 @@ public class StartWorkoutActivity extends AppCompatActivity {
                     timer.cancel();
                 }
                 if (setsRemaining == 0) {
+                    /* Code is duplicated in the below onClick method, but there are so many moving parts to it that
+                     * it is easier to just copy the code over twice.
+                     */
+                    // noinspection Duplicates
                     if (cursor.moveToNext()) {
                         int[] exerciseData = updateExercise(cursor, mExerciseNameTextView, mRepsSetsTextView, mRestTimeTextView, mSetsRemainingTextView);
                         setsRemaining = exerciseData[0];
@@ -83,7 +87,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
                         mWorkoutCompleteTextView.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    timer = setTimer(restTime, mTimerTextView);
+                    timer = setTimer(restTime, mTimerTextView, getApplicationContext());
                 }
             }
         });
@@ -95,6 +99,10 @@ public class StartWorkoutActivity extends AppCompatActivity {
                 if (timer != null) {
                     timer.cancel();
                 }
+                /* Code is duplicated in the above onClick method, but there are so many moving parts to it that
+                 * it is easier to just copy the code over twice.
+                 */
+                // noinspection Duplicates
                 if (cursor.moveToNext()) {
                     int [] exerciseData = updateExercise(cursor, mExerciseNameTextView, mRepsSetsTextView, mRestTimeTextView, mSetsRemainingTextView);
                     setsRemaining = exerciseData[0];
@@ -111,13 +119,22 @@ public class StartWorkoutActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
 
 
-    /* Takes in the rest time in seconds and a TextView. Creates a CountdownTimer with the rest time, and updates
+    /**
+     * Takes in the rest time in seconds and a TextView. Creates a CountdownTimer with the rest time, and updates
      * the TextView every second to show the timer running down.
+     *
+     * @param time              The time that the timer should count down from.
+     * @param textView          The TextView that shows the status of the timer.
+     * @param context           The Context of the application, needed for constructors.
+     * @return                  A CountDownTimer object that the application can manipulate and get data from.
      */
-    public CountDownTimer setTimer(int time, final TextView textView) {
+    private CountDownTimer setTimer(int time, final TextView textView, final Context context) {
         return new CountDownTimer(time * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -127,17 +144,27 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Toast.makeText(getApplicationContext(), "Move on to the next rep!", Toast.LENGTH_LONG).show();
+                NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Workout Tracker")
+                        .setContentText("Time for the next set!");
+                int notificationID = 001;
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(notificationID, mBuilder.build());
             }
         }.start();
     }
 
 
-    /* Sets all TextViews to their corresponding column values from the database. Returns the sets and rest time,
-     * because they are used in other functions. All other data is not needed other than to set the TextViews, so it
-     * makes sense to encapsulate it all in a function to reduce the use of unnecessary variables.
-     * Usage: When we move rows in the database, we have to run this method to update the views of the app to reflect
-     *        the new row.
+    /**
+     * Sets all exercise info TextViews to the correct information. Used when we move rows (aka move to the next exercise).
+     *
+     * @param cursor                The cursor that gets the data from the database, so we can update the rest of the data.
+     * @param exerciseNameView      The TextView with the exercise name information.
+     * @param repsSetsView          The TextView with the number of reps and sets.
+     * @param restTimeView          The TextView with the rest time for an exercise, in seconds.
+     * @param setsRemainingView     The TextView with the sets remaining for the exercise, starts at just the number of sets.
+     * @return                      An int array, with the sets and rest time for the exercise, so we can use it later.
      */
     public int[] updateExercise(Cursor cursor, TextView exerciseNameView, TextView repsSetsView, TextView restTimeView,
                               TextView setsRemainingView) {
@@ -158,7 +185,14 @@ public class StartWorkoutActivity extends AppCompatActivity {
     }
 
 
-    public int updateSetsRemaining(int currentSetsRemaining, TextView textView) {
+    /**
+     * Decrements the current remaining set count by 1, and updates a TextView to reflect this.
+     *
+     * @param currentSetsRemaining      The current number of sets remaining.
+     * @param textView                  The TextView that shows the number of sets remaining
+     * @return                          An int representing the new number of sets remaining (currentSetsRemaining - 1)
+     */
+    private int updateSetsRemaining(int currentSetsRemaining, TextView textView) {
         currentSetsRemaining--;
         if (currentSetsRemaining == 0) {
             return 0;
