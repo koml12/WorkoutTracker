@@ -2,12 +2,12 @@
 Android app for tracking your workouts
 
 # Update (9/13/17)
-+ Fixed bug where trying to edit an exercise didn't work all the time, required a simple database delete and restart because the tables and structure of the database changed last time, so some entries in the database did not reflect that.
-+ Fixed bug where all exercises would show when the user started the workout by passing the workout key across all activities relating to it.
++ Updated the "key" system for workouts by simply using a Cursor that could get all the workouts from the table, and count them with the getCount() method. Surprisingly simple solution to a very strange bug.
++ Notifications have been added in, but they don't do anything, reason being that StartWorkoutActivity has a lot of data that changes without specifically refreshing the activity, and when clicking on a notification, it runs onCreate() again, and all progress in the workout is deleted. Maybe there's a way to fix this by keeping the activity paused when the user is not in the app, and when they click on the notification, the activity can resume.
 
 # To-Do (9/13/17)
-+ Users get a notification when their rest time is up.
-+ Add weight logging during/after exercise has been completed (is it possible to make a list of weights for progression purposes?)
 + Make the app not ugly.
++ Figure out a way to resume same version of StartWorkoutActivity on notification click.
 
 # Bugs (9/13/17)
++ Find some way to take care of unwanted back button hits. They switch into the paused version of activities when most of the time it is necessary to run onCreate again.
