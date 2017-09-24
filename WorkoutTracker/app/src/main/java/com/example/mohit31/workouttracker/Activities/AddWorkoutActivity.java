@@ -2,6 +2,7 @@ package com.example.mohit31.workouttracker.Activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,9 @@ public class AddWorkoutActivity extends AppCompatActivity {
 
         WorkoutViewDbHelper dbHelper = new WorkoutViewDbHelper(getApplicationContext());
         final SQLiteDatabase database = dbHelper.getWritableDatabase();
+        final Cursor cursor = DatabaseMethods.getWorkoutItems(database);
+
+
 
         mWorkoutNameEditText = (EditText) findViewById(R.id.et_add_workout);
         mAddWorkoutButton = (Button) findViewById(R.id.btn_add_workout);
@@ -42,10 +46,11 @@ public class AddWorkoutActivity extends AppCompatActivity {
 
                 String workoutName = mWorkoutNameEditText.getText().toString();
                 int id = View.generateViewId();
+                int count = cursor.getCount();
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_NAME, workoutName);
-                contentValues.put(WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_KEY, id);
+                contentValues.put(WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_KEY, count + 1);
 
                 database.insert(WorkoutListContract.WorkoutListEntry.TABLE_NAME, null, contentValues);
 

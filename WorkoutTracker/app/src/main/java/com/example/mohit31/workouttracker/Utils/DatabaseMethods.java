@@ -66,4 +66,21 @@ public class DatabaseMethods {
                 null,
                 null);
     }
+
+
+    public static Cursor getWorkoutFromKey(SQLiteDatabase database, int key) {
+        String[] columns = {
+                WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_NAME,
+                WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_KEY,
+                WorkoutListContract.WorkoutListEntry._ID,
+        };
+        return database.query(WorkoutListContract.WorkoutListEntry.TABLE_NAME,
+                columns,
+                WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_KEY + " = " + key,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
 }

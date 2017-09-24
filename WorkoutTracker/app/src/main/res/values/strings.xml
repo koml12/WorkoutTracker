@@ -20,4 +20,5 @@
     <string name="delete_workout">Delete Workout</string>
     <string name="weight">Weight</string>
     <string name="finish">Finish</string>
+    <string name="update_workout">Update Workout</string>
 </resources>
