@@ -32,12 +32,14 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         TextView mExerciseNameTextView;
         TextView mRepsSetsTextView;
         TextView mRestTimeTextView;
+        TextView mWeightTextView;
 
         WorkoutViewViewHolder(final View itemView) {
             super(itemView);
             mExerciseNameTextView = (TextView) itemView.findViewById(R.id.tv_exercise_name);
             mRepsSetsTextView = (TextView) itemView.findViewById(R.id.tv_exercise_reps_sets);
             mRestTimeTextView = (TextView) itemView.findViewById(R.id.tv_exercise_rest);
+            mWeightTextView = (TextView) itemView.findViewById(R.id.tv_exercise_item_weight);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -49,18 +51,20 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
                     String[] setsAndReps = mRepsSetsTextView.getText().toString().split("x");
                     String sets = setsAndReps[0];
                     String reps = setsAndReps[1];
-                    String[] restTimeArray = mRestTimeTextView.getText().toString().split(" ", 0);
+                    String[] restTimeArray = mRestTimeTextView.getText().toString().split(" ");
                     mExerciseDbCursor.moveToPosition(getAdapterPosition());
                     String id = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
                     int key = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY));
+                    String[] weightArray = mWeightTextView.getText().toString().split(" ");
 
                     Intent intent = new Intent(mContext, EditExerciseActivity.class);
                     intent.putExtra("EXERCISE_NAME", exerciseName);
                     intent.putExtra("REPS", reps);
                     intent.putExtra("SETS", sets);
-                    intent.putExtra("REST_TIME", restTimeArray[0]);
+                    intent.putExtra("REST_TIME", restTimeArray[1]);
                     intent.putExtra("EXERCISE_ID", id);
                     intent.putExtra("WORKOUT_KEY", key);
+                    intent.putExtra("WEIGHT", weightArray[2]);
 
                     mContext.startActivity(intent);
 
@@ -92,6 +96,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         setExerciseName(holder.mExerciseNameTextView);
         setRepsAndSets(holder.mRepsSetsTextView);
         setRestTime(holder.mRestTimeTextView);
+        setWeight(holder.mWeightTextView);
     }
 
 
@@ -118,10 +123,16 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
      */
     public void setRestTime(TextView textView) {
         int restTime = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME));
-        String restTimeString = String.valueOf(restTime) + " seconds";
+        String restTimeString = "Rest: " + String.valueOf(restTime) + " seconds";
         textView.setText(restTimeString);
     }
 
+
+    public void setWeight(TextView textView) {
+        double weight = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT));
+        String weightString = "Last weight: " + String.valueOf(weight) + " lbs";
+        textView.setText(weightString);
+    }
 
     /* Takes in a new cursor, and updates the global adapter cursor to reflect that.
      * Usage: When we update the database, but do not want to reload the entire activity at one time. This method just

@@ -20,6 +20,7 @@ public class WorkoutViewDbHelper extends SQLiteOpenHelper {
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME + " INTEGER, "
+            + WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT + " REAL, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY + " INTEGER)";
 
     public final String DELETE_EXERCISE_TABLE = "DROP TABLE " + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME;

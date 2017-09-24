@@ -78,6 +78,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS, sets);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME, rest);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY, key);
+        contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, 0);
 
         return database.insert(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, null, contentValues);
     }

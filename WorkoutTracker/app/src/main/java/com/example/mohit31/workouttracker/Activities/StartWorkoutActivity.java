@@ -1,15 +1,21 @@
 package com.example.mohit31.workouttracker.Activities;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import com.example.mohit31.workouttracker.Database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.Database.WorkoutViewDbHelper;
@@ -26,6 +32,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
     private TextView mWorkoutCompleteTextView;
     private Button mSetCompletedButton;
     private Button mNextExerciseButton;
+    private Button mFinishWorkoutButton;
 
     private int restTime = 0;
     private int setsRemaining;
@@ -45,11 +52,12 @@ public class StartWorkoutActivity extends AppCompatActivity {
         mWorkoutCompleteTextView = (TextView) findViewById(R.id.tv_start_workout_workout_completed);
         mSetCompletedButton = (Button) findViewById(R.id.btn_start_workout_set_completed);
         mNextExerciseButton = (Button) findViewById(R.id.btn_start_workout_next_exercise);
+        mFinishWorkoutButton = (Button) findViewById(R.id.btn_finish_workout);
 
         final int key = getIntent().getExtras().getInt("WORKOUT_KEY");
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(this);
-        SQLiteDatabase database = helper.getReadableDatabase();
+        final SQLiteDatabase database = helper.getReadableDatabase();
         final Cursor cursor = DatabaseMethods.getExercisesForWorkout(database, key);
 
         if (cursor.moveToFirst()) {
@@ -67,6 +75,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
                     timer.cancel();
                 }
                 if (setsRemaining == 0) {
+                    showLogWeightDialog(StartWorkoutActivity.this, cursor, database);
                     /* Code is duplicated in the below onClick method, but there are so many moving parts to it that
                      * it is easier to just copy the code over twice.
                      */
@@ -85,6 +94,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
                         mSetCompletedButton.setVisibility(View.INVISIBLE);
                         mTimerTextView.setVisibility(View.INVISIBLE);
                         mWorkoutCompleteTextView.setVisibility(View.VISIBLE);
+                        mFinishWorkoutButton.setVisibility(View.VISIBLE);
                     }
                 } else {
                     timer = setTimer(restTime, mTimerTextView, getApplicationContext());
@@ -99,6 +109,9 @@ public class StartWorkoutActivity extends AppCompatActivity {
                 if (timer != null) {
                     timer.cancel();
                 }
+
+                showLogWeightDialog(StartWorkoutActivity.this, cursor, database);
+
                 /* Code is duplicated in the above onClick method, but there are so many moving parts to it that
                  * it is easier to just copy the code over twice.
                  */
@@ -116,11 +129,19 @@ public class StartWorkoutActivity extends AppCompatActivity {
                     mSetCompletedButton.setVisibility(View.INVISIBLE);
                     mTimerTextView.setVisibility(View.INVISIBLE);
                     mWorkoutCompleteTextView.setVisibility(View.VISIBLE);
+                    mFinishWorkoutButton.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-
+        mFinishWorkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WorkoutViewActivity.class);
+                intent.putExtra("WORKOUT_KEY", key);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -204,5 +225,47 @@ public class StartWorkoutActivity extends AppCompatActivity {
             textView.setText(message);
         }
         return currentSetsRemaining;
+    }
+
+
+    /**
+     * Shows a dialog to the user asking for them to log the weight they just lifted, and updates the database.
+     *
+     * @param context               Activity context.
+     * @param cursor                Cursor to index database and find ID to update with.
+     * @param database              Database to apply changes to.
+     */
+    public void showLogWeightDialog(Context context, final Cursor cursor, final SQLiteDatabase database) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Log Weight");
+
+        final EditText logWeightInput = new EditText(context);
+        logWeightInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        builder.setView(logWeightInput);
+
+        builder.setPositiveButton("LOG", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                double weight =  Double.parseDouble(logWeightInput.getText().toString());
+
+                // I have no idea why the cursor needs to move back one and then forward one, but the app breaks without it.
+                cursor.moveToPrevious();
+
+                String id = cursor.getString(cursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, weight);
+                database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, contentValues, "_id = " + id, null);
+
+                cursor.moveToNext();
+            }
+        });
+
+        builder.setNegativeButton("NO THANKS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
     }
 }

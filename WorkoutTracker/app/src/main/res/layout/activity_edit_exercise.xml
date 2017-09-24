@@ -43,11 +43,19 @@
             android:inputType="number"
             android:hint="@string/rest_time"/>
 
+    <EditText
+            android:id="@+id/et_edit_exercise_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_edit_exercise_rest_time"
+            android:inputType="numberDecimal"
+            android:hint="@string/weight"/>
+
     <Button
             android:id="@+id/btn_update_exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_edit_exercise_rest_time"
+            android:layout_below="@id/et_edit_exercise_weight"
             android:layout_centerInParent="true"
             android:text="@string/update_exercise"/>
 

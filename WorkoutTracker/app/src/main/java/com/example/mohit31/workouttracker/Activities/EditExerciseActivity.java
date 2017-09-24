@@ -18,6 +18,7 @@ public class EditExerciseActivity extends AppCompatActivity {
     private EditText mRepsEditText;
     private EditText mSetsEditText;
     private EditText mRestTimeEditText;
+    private EditText mWeightEditText;
     private Button mUpdateExerciseButton;
     private Button mDeleteExerciseButton;
 
@@ -32,6 +33,7 @@ public class EditExerciseActivity extends AppCompatActivity {
         mRepsEditText = (EditText) findViewById(R.id.et_edit_exercise_reps);
         mSetsEditText = (EditText) findViewById(R.id.et_edit_exercise_sets);
         mRestTimeEditText = (EditText) findViewById(R.id.et_edit_exercise_rest_time);
+        mWeightEditText = (EditText) findViewById(R.id.et_edit_exercise_weight);
         mUpdateExerciseButton = (Button) findViewById(R.id.btn_update_exercise);
         mDeleteExerciseButton = (Button) findViewById(R.id.btn_delete_exercise);
 
@@ -41,6 +43,7 @@ public class EditExerciseActivity extends AppCompatActivity {
         String reps = extras.getString("REPS");
         String sets = extras.getString("SETS");
         String restTime = extras.getString("REST_TIME");
+        String weight = extras.getString("WEIGHT");
         final int key = extras.getInt("WORKOUT_KEY");
         final String id = extras.getString("EXERCISE_ID");
 
@@ -48,6 +51,7 @@ public class EditExerciseActivity extends AppCompatActivity {
         mRepsEditText.setText(reps);
         mSetsEditText.setText(sets);
         mRestTimeEditText.setText(restTime);
+        mWeightEditText.setText(weight);
 
         WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
         final SQLiteDatabase database = helper.getWritableDatabase();
@@ -60,6 +64,7 @@ public class EditExerciseActivity extends AppCompatActivity {
                 String changedRepsString = mRepsEditText.getText().toString();
                 String changedSetsString = mSetsEditText.getText().toString();
                 String changedRestTimeString = mRestTimeEditText.getText().toString();
+                String changedWeightString = mWeightEditText.getText().toString();
 
 
                 if (changedName.trim().isEmpty() || changedRepsString.trim().isEmpty() ||
@@ -72,12 +77,14 @@ public class EditExerciseActivity extends AppCompatActivity {
                 int changedReps = Integer.parseInt(changedRepsString);
                 int changedSets = Integer.parseInt(changedSetsString);
                 int changedRestTime = Integer.parseInt(changedRestTimeString);
+                double changedWeight = Double.parseDouble(changedWeightString);
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME, changedName);
                 contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS, changedReps);
                 contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS, changedSets);
                 contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME, changedRestTime);
+                contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, changedWeight);
 
                 database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, contentValues, "_id = " + String.valueOf(id), null);
 

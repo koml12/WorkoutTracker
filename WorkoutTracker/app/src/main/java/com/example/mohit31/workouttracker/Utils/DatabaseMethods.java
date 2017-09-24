@@ -17,7 +17,8 @@ public class DatabaseMethods {
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME,
                 WorkoutViewContract.WorkoutViewEntry._ID,
-                WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY,
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT,
         };
         return database.query(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME,
                 columns,
@@ -53,7 +54,8 @@ public class DatabaseMethods {
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME,
                 WorkoutViewContract.WorkoutViewEntry._ID,
-                WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY,
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT,
         };
         return database.query(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME,
                 columns,
