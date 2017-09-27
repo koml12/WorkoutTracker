@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.example.mohit31.workouttracker.Activities.WorkoutListActivity">
+        tools:context="com.example.mohit31.workouttracker.activities.WorkoutListActivity">
 
     <android.support.design.widget.AppBarLayout
             android:layout_height="wrap_content"
@@ -30,6 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
+            app:fabSize="normal"
+            app:theme="@style/Widget.Design.FloatingActionButton"
+            android:src="@drawable/ic_add_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
