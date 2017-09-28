@@ -37,7 +37,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@id/btn_to_add_exercise"
             android:text="@string/start"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/light_green"
             style="?borderlessButtonStyle"/>
 
     <View

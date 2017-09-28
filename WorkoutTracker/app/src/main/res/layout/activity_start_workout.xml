@@ -73,10 +73,11 @@
     <Button
             android:id="@+id/btn_start_workout_next_exercise"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:text="@string/next_exercise"
-            android:layout_below="@id/btn_start_workout_set_completed"/>
+    />
 
     <TextView
             android:id="@+id/tv_start_workout_workout_completed"
