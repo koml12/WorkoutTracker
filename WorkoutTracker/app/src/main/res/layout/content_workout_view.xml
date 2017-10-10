@@ -46,6 +46,4 @@
             android:layout_above="@id/btn_to_add_exercise"
             android:background="@color/darkGray"/>
 
-
-
 </RelativeLayout>

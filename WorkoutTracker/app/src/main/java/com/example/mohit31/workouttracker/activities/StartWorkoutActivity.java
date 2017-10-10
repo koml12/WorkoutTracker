@@ -13,14 +13,18 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.example.mohit31.workouttracker.database.WeightContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewDbHelper;
 import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.utils.DatabaseMethods;
+
+import java.util.Date;
 
 public class StartWorkoutActivity extends AppCompatActivity {
 
@@ -268,12 +272,15 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
                 // I have no idea why the cursor needs to move back one and then forward one, but the app breaks without it.
                 cursor.moveToPrevious();
+                long unixTimeStamp = System.currentTimeMillis();
 
                 String id = cursor.getString(cursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, weight);
-                database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, contentValues, "_id = " + id, null);
-
+                contentValues.put(WeightContract.WeightEntry.COLUMN_EXERCISE, id);
+                contentValues.put(WeightContract.WeightEntry.COLUMN_DATE, unixTimeStamp);
+                contentValues.put(WeightContract.WeightEntry.COLUMN_WEIGHT, weight);
+                database.insert(WeightContract.WeightEntry.TABLE_NAME, null, contentValues);
+                Log.d("WORKOUT", "put weight in");
                 cursor.moveToNext();
             }
         });

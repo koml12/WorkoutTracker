@@ -102,14 +102,23 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
 
     /* Sets the text of the parameter TextView to an exercise name from the database.
      */
+
+    /**
+     * Sets the text of a TextView to the exercise name for a particular exercise.
+     *
+     * @param textView                  TextView that displays the name for a particular exercise.
+     */
     public void setExerciseName(TextView textView) {
         String exerciseName = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME));
         textView.setText(exerciseName);
     }
 
 
-    /* Sets the text of a TextView to the reps and sets of an exercise.
-     *  Also changes the int values of reps and sets from the database to a String "sets x reps".
+    /**
+     * Sets the text of a TextView to the reps and sets of a particular exercise. Changes the int values for reps and
+     * sets to a String of the from "sets x reps"
+     *
+     * @param textView                  TextView that displays the reps and sets for an exercise.
      */
     public void setRepsAndSets(TextView textView) {
         int reps = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS));
@@ -119,7 +128,10 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
     }
 
 
-    /* Sets the text of a TextView to the rest time in seconds.
+    /**
+     * Sets the text of a TextView to the rest time in seconds for a particular exercise.
+     *
+     * @param textView                  TextView that displays the rest time for an exercise.
      */
     public void setRestTime(TextView textView) {
         int restTime = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME));
@@ -128,15 +140,24 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
     }
 
 
+    /**
+     * Sets the text of a TextView to the last weight lifted by the user for a particular exercise.
+     *
+     * @param textView                  TextView that displays the current weight for an exercise.
+     */
     public void setWeight(TextView textView) {
         double weight = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT));
         String weightString = "Last weight: " + String.valueOf(weight) + " lbs";
         textView.setText(weightString);
     }
 
-    /* Takes in a new cursor, and updates the global adapter cursor to reflect that.
+    /**
+     * Takes in a new cursor, and updates the global adapter cursor to reflect that.
      * Usage: When we update the database, but do not want to reload the entire activity at one time. This method just
      *        refreshes the RecyclerView.
+     *
+     * @param newCursor                 Cursor that we want to swap the current Cursor for.
+     * @return                          A new Cursor object for the adapter.
      */
     public Cursor swapCursor(Cursor newCursor) {
         if (mExerciseDbCursor != null) {

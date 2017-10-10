@@ -35,22 +35,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_start_workout_reps_sets"
+            android:layout_centerHorizontal="true"
             android:textSize="20sp"
-            android:text="@string/rest_time"
             android:textColor="@color/black"
-            android:layout_centerHorizontal="true"/>
+            android:text="@string/rest_time"
+    />
 
 
     <TextView
             android:id="@+id/tv_start_workout_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_start_workout_rest_time"
             android:layout_centerInParent="true"
+            android:padding="32dp"
             android:textColor="@color/black"
             android:textSize="64sp"
             android:text="@string/blank_timer"
-            android:padding="32dp"
-            android:layout_below="@id/tv_start_workout_rest_time"/>
+    />
 
     <TextView
             android:id="@+id/tv_start_workout_sets_remaining"
@@ -60,7 +62,8 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text="@string/sets"/>
+            android:text="@string/sets"
+    />
 
     <Button
             android:id="@+id/btn_start_workout_set_completed"
@@ -68,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/set_completed"
-            android:layout_below="@id/tv_start_workout_sets_remaining"/>
+            android:layout_below="@id/tv_start_workout_sets_remaining"
+    />
 
     <Button
             android:id="@+id/btn_start_workout_next_exercise"
@@ -85,10 +89,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:paddingTop="72dp"
-            android:visibility="invisible"
             android:textColor="@color/black"
             android:textSize="64sp"
-            android:text="@string/workout_complete"/>
+            android:text="@string/workout_complete"
+            android:visibility="invisible"
+
+    />
 
     <Button
             android:id="@+id/btn_finish_workout"
@@ -96,7 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_start_workout_workout_completed"
             android:text="@string/finish"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+    />
 
 
 </RelativeLayout>

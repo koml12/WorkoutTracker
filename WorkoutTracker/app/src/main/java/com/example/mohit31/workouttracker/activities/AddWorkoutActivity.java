@@ -44,7 +44,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
                 }
 
                 String workoutName = mWorkoutNameEditText.getText().toString();
-                int id = View.generateViewId();
                 int count = cursor.getCount();
 
                 ContentValues contentValues = new ContentValues();

@@ -90,4 +90,6 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         return mCursor;
     }
 
+
+
 }

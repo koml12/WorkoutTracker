@@ -12,6 +12,7 @@ public final class WorkoutViewContract {
     }
 
     public static class WorkoutViewEntry implements BaseColumns {
+        public static final String _ID = "_id";
         public static final String TABLE_NAME = "workoutInfo";
         public static final String COLUMN_EXERCISE_NAME = "exerciseName";
         public static final String COLUMN_SETS = "sets";
@@ -19,5 +20,6 @@ public final class WorkoutViewContract {
         public static final String COLUMN_REST_TIME = "restTime";
         public static final String COLUMN_WORKOUT_KEY = "workoutKey";
         public static final String COLUMN_WEIGHT = "weight";
+        public static final String COLUMN_WEIGHT_ID = "weightID";
     }
 }

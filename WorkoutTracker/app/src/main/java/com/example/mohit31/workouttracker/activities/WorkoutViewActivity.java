@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,11 +39,10 @@ public class WorkoutViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-
         key = extras.getInt("WORKOUT_KEY");
 
-        WorkoutViewDbHelper helper = new WorkoutViewDbHelper(getApplicationContext());
-        mDatabase = helper.getWritableDatabase();
+        WorkoutViewDbHelper mDbHelper = new WorkoutViewDbHelper(getApplicationContext());
+        mDatabase = mDbHelper.getWritableDatabase();
         mCursor = DatabaseMethods.getExercisesForWorkout(mDatabase, key);
 
         RecyclerView exerciseRecyclerView = (RecyclerView) findViewById(R.id.rv_workout_view);
@@ -98,12 +95,21 @@ public class WorkoutViewActivity extends AppCompatActivity {
                 intent.putExtra("WORKOUT_KEY", key);
                 startActivity(intent);
                 break;
+            case R.id.track_workout:
+                Intent intent1 = new Intent(getApplicationContext(), TrackWorkoutActivity.class);
+                intent1.putExtra("WORKOUT_KEY", key);
+                startActivity(intent1);
             default:
                 break;
         }
         return true;
     }
 
+    /**
+     * Override onResume to swap out the current cursor.
+     * When the back button's default behavior is changed, it leads to the Adapter not refreshing with new data, so
+     * we can swap out the Cursor for a new one instead.
+     */
     @Override
     protected void onResume() {
         super.onResume();

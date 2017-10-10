@@ -13,6 +13,7 @@ public final class WorkoutListContract {
 
     public static class WorkoutListEntry implements BaseColumns {
         public static final String TABLE_NAME = "workoutList";
+        public static final String _ID = "_id";
         public static final String COLUMN_WORKOUT_NAME = "name";
         public static final String COLUMN_WORKOUT_KEY = "key";
     }

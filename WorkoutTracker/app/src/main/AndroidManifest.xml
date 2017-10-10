@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".activities.WorkoutSettingsActivity">
         </activity>
+        <activity android:name=".activities.TrackWorkoutActivity">
+        </activity>
     </application>
 
 </manifest>
