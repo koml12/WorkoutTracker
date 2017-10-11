@@ -20,7 +20,14 @@
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_weight_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="invisible"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_line_weights"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:layout_below="@id/rv_weight_list"/>
 
 </RelativeLayout>
