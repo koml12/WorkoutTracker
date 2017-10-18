@@ -8,19 +8,30 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.TimerActivity">
+
+        <activity
+                android:name=".activities.TimerActivity">
         </activity>
+
         <activity
                 android:name=".activities.WorkoutViewActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activities.AddExerciseActivity">
+
+        <activity
+                android:name=".activities.AddExerciseActivity">
         </activity>
-        <activity android:name=".activities.StartWorkoutActivity">
+
+        <activity
+                android:name=".activities.StartWorkoutActivity"
+                android:launchMode="singleInstance">
         </activity>
-        <activity android:name=".activities.EditExerciseActivity">
+
+        <activity
+                android:name=".activities.EditExerciseActivity">
         </activity>
+
         <activity
                 android:name=".activities.WorkoutListActivity"
                 android:label="@string/app_name"
@@ -31,11 +42,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AddWorkoutActivity">
+
+        <activity
+                android:name=".activities.AddWorkoutActivity">
         </activity>
-        <activity android:name=".activities.WorkoutSettingsActivity">
+
+        <activity
+                android:name=".activities.WorkoutSettingsActivity">
         </activity>
-        <activity android:name=".activities.TrackWorkoutActivity">
+
+        <activity
+                android:name=".activities.TrackWorkoutActivity">
         </activity>
     </application>
 

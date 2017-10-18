@@ -113,7 +113,7 @@ public class DatabaseMethods {
                 null);
     }
 
-    // TODO: Fill in this method to take in an exercise id.
+
     public static Cursor getWeightsFromExercise(SQLiteDatabase database, String id) {
         String[] columns = {
                 WeightContract.WeightEntry.COLUMN_EXERCISE,
@@ -129,4 +129,6 @@ public class DatabaseMethods {
                 null,
                 null);
     }
+
+
 }

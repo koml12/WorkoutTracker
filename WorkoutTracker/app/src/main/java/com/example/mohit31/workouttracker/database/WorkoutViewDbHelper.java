@@ -25,7 +25,7 @@ public class WorkoutViewDbHelper extends SQLiteOpenHelper {
 
     public final String CREATE_WEIGHT_TABLE = "CREATE TABLE " + WeightContract.WeightEntry.TABLE_NAME + " ("
             + WeightContract.WeightEntry.COLUMN_DATE + " INTEGER, "
-            + WeightContract.WeightEntry.COLUMN_WEIGHT + " INTEGER, "
+            + WeightContract.WeightEntry.COLUMN_WEIGHT + " REAL, "
             + WeightContract.WeightEntry.COLUMN_EXERCISE + " INTEGER NOT NULL, "
             + "FOREIGN KEY (" + WeightContract.WeightEntry.COLUMN_EXERCISE + ") REFERENCES "
             + WorkoutViewContract.WorkoutViewEntry.TABLE_NAME + "(" + WorkoutViewContract.WorkoutViewEntry._ID+ ") ON DELETE CASCADE);";

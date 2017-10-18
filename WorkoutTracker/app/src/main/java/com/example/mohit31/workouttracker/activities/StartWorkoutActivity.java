@@ -2,6 +2,7 @@ package com.example.mohit31.workouttracker.activities;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import com.example.mohit31.workouttracker.database.WorkoutViewDbHelper;
 import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.utils.DatabaseMethods;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StartWorkoutActivity extends AppCompatActivity {
@@ -151,7 +153,6 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
     }
 
-
     /**
      * Takes in the rest time in seconds and a TextView. Creates a CountdownTimer with the rest time, and updates
      * the TextView every second to show the timer running down.
@@ -187,10 +188,18 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                String noTime = "00:00";
+                textView.setText(noTime);
                 NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Workout Tracker")
                         .setContentText("Time for the next set!");
+
+                Intent intent = new Intent(StartWorkoutActivity.this, StartWorkoutActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(StartWorkoutActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(pendingIntent);
+                mBuilder.setAutoCancel(true);
+
                 int notificationID = 001;
                 NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 notificationManager.notify(notificationID, mBuilder.build());
@@ -249,7 +258,6 @@ public class StartWorkoutActivity extends AppCompatActivity {
         return currentSetsRemaining;
     }
 
-
     /**
      * Shows a dialog to the user asking for them to log the weight they just lifted, and updates the database.
      *
@@ -257,7 +265,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
      * @param cursor                Cursor to index database and find ID to update with.
      * @param database              Database to apply changes to.
      */
-    public void showLogWeightDialog(Context context, final Cursor cursor, final SQLiteDatabase database) {
+    private void showLogWeightDialog(Context context, final Cursor cursor, final SQLiteDatabase database) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Log Weight");
 
@@ -272,15 +280,18 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
                 // I have no idea why the cursor needs to move back one and then forward one, but the app breaks without it.
                 cursor.moveToPrevious();
-                long unixTimeStamp = System.currentTimeMillis();
+                long unixTimeStamp = new Date().getTime();
 
                 String id = cursor.getString(cursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
                 ContentValues contentValues = new ContentValues();
+                ContentValues exerciseContentValues = new ContentValues();
                 contentValues.put(WeightContract.WeightEntry.COLUMN_EXERCISE, id);
                 contentValues.put(WeightContract.WeightEntry.COLUMN_DATE, unixTimeStamp);
                 contentValues.put(WeightContract.WeightEntry.COLUMN_WEIGHT, weight);
+                exerciseContentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, weight);
                 database.insert(WeightContract.WeightEntry.TABLE_NAME, null, contentValues);
-                Log.d("WORKOUT", "put weight in");
+                database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, exerciseContentValues, "_ID = " + id, null);
+
                 cursor.moveToNext();
             }
         });
