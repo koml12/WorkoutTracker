@@ -73,7 +73,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
     }
 
 
-    public void setWorkoutName(TextView textView) {
+    private void setWorkoutName(TextView textView) {
         String workoutName = mCursor.getString(mCursor.getColumnIndex(WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_NAME));
         textView.setText(workoutName);
     }

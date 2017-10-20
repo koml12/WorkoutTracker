@@ -10,7 +10,6 @@ import com.example.mohit31.workouttracker.database.WorkoutViewContract;
  * Created by mohit31 on 9/1/17.
  */
 
-
 /**
  * Random utility methods for databases, mainly for getting Cursor objects with specific conditions.
  */
@@ -113,7 +112,13 @@ public class DatabaseMethods {
                 null);
     }
 
-
+    /**
+     * Gets all rows of the weights table corresponding to a given ExerciseKey.
+     *
+     * @param database              Database with all the tables in it.
+     * @param id                    ID of the exercise, as a String.
+     * @return                      Cursor with all the rows of the weights table that correspond to 'id'.
+     */
     public static Cursor getWeightsFromExercise(SQLiteDatabase database, String id) {
         String[] columns = {
                 WeightContract.WeightEntry.COLUMN_EXERCISE,

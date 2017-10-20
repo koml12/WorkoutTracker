@@ -14,18 +14,15 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.database.WeightContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewDbHelper;
-import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.utils.DatabaseMethods;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StartWorkoutActivity extends AppCompatActivity {
@@ -43,7 +40,6 @@ public class StartWorkoutActivity extends AppCompatActivity {
     private int restTime = 0;
     private int setsRemaining;
     private CountDownTimer timer = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +66,6 @@ public class StartWorkoutActivity extends AppCompatActivity {
             int[] exerciseData = updateExercise(cursor, mExerciseNameTextView, mRepsSetsTextView, mRestTimeTextView, mSetsRemainingTextView);
             setsRemaining = exerciseData[0];
             restTime = exerciseData[1];
-
         }
 
         mSetCompletedButton.setOnClickListener(new View.OnClickListener() {

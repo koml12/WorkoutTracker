@@ -22,8 +22,6 @@ public class EditExerciseActivity extends AppCompatActivity {
     private Button mUpdateExerciseButton;
     private Button mDeleteExerciseButton;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +93,6 @@ public class EditExerciseActivity extends AppCompatActivity {
             }
         });
 
-
         mDeleteExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +102,6 @@ public class EditExerciseActivity extends AppCompatActivity {
                 intent.putExtra("WORKOUT_KEY", key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
-
             }
         });
     }

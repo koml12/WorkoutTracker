@@ -7,9 +7,7 @@ import android.provider.BaseColumns;
  */
 public final class WorkoutViewContract {
 
-    private WorkoutViewContract() {
-
-    }
+    private WorkoutViewContract() {}
 
     public static class WorkoutViewEntry implements BaseColumns {
         public static final String _ID = "_id";
@@ -20,6 +18,5 @@ public final class WorkoutViewContract {
         public static final String COLUMN_REST_TIME = "restTime";
         public static final String COLUMN_WORKOUT_KEY = "workoutKey";
         public static final String COLUMN_WEIGHT = "weight";
-        public static final String COLUMN_WEIGHT_ID = "weightID";
     }
 }

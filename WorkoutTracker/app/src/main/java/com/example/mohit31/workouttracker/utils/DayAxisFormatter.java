@@ -2,7 +2,6 @@ package com.example.mohit31.workouttracker.utils;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,7 +15,6 @@ public class DayAxisFormatter implements IAxisValueFormatter {
     public String getFormattedValue(float value, AxisBase axis) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.getDefault());
         Date d = new Date((long) value);
-        String date = dateFormat.format(d);
-        return date;
+        return dateFormat.format(d);
     }
 }

@@ -7,9 +7,7 @@ import android.provider.BaseColumns;
  */
 public final class WorkoutListContract {
 
-    private WorkoutListContract() {
-
-    }
+    private WorkoutListContract() {}
 
     public static class WorkoutListEntry implements BaseColumns {
         public static final String TABLE_NAME = "workoutList";

@@ -18,7 +18,7 @@ import com.example.mohit31.workouttracker.utils.DatabaseMethods;
 
 public class WorkoutSettingsActivity extends AppCompatActivity {
 
-    EditText mWorkoutNameEditText;
+    private EditText mWorkoutNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -29,8 +29,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
         final SQLiteDatabase database = dbHelper.getWritableDatabase();
         final Cursor cursor = DatabaseMethods.getWorkoutItems(database);
 
-
-
         mWorkoutNameEditText = (EditText) findViewById(R.id.et_add_workout);
         mAddWorkoutButton = (Button) findViewById(R.id.btn_add_workout);
 
@@ -55,7 +53,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
                 Intent intent = new Intent(AddWorkoutActivity.this, WorkoutListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
-
             }
         });
     }

@@ -15,18 +15,14 @@ import com.example.mohit31.workouttracker.R;
 /**
  * Created by mohit31 on 8/30/17.
  */
-
-
 public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.WorkoutViewViewHolder>{
     private Context mContext;
     private Cursor mExerciseDbCursor;
-
 
     public WorkoutViewAdapter(Context context, Cursor cursor) {
         mContext = context;
         mExerciseDbCursor = cursor;
     }
-
 
     class WorkoutViewViewHolder extends RecyclerView.ViewHolder {
         TextView mExerciseNameTextView;
@@ -73,7 +69,6 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         }
     }
 
-
     @Override
     public WorkoutViewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -81,12 +76,10 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         return new WorkoutViewViewHolder(v);
     }
 
-
     @Override
     public int getItemCount() {
         return mExerciseDbCursor.getCount();
     }
-
 
     @Override
     public void onBindViewHolder(WorkoutViewViewHolder holder, int position) {
@@ -99,20 +92,15 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         setWeight(holder.mWeightTextView);
     }
 
-
-    /* Sets the text of the parameter TextView to an exercise name from the database.
-     */
-
     /**
      * Sets the text of a TextView to the exercise name for a particular exercise.
      *
      * @param textView                  TextView that displays the name for a particular exercise.
      */
-    public void setExerciseName(TextView textView) {
+    private void setExerciseName(TextView textView) {
         String exerciseName = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME));
         textView.setText(exerciseName);
     }
-
 
     /**
      * Sets the text of a TextView to the reps and sets of a particular exercise. Changes the int values for reps and
@@ -120,32 +108,30 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
      *
      * @param textView                  TextView that displays the reps and sets for an exercise.
      */
-    public void setRepsAndSets(TextView textView) {
+    private void setRepsAndSets(TextView textView) {
         int reps = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS));
         int sets = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS));
         String repsAndSets = String.valueOf(sets) + "x" + String.valueOf(reps);
         textView.setText(repsAndSets);
     }
 
-
     /**
      * Sets the text of a TextView to the rest time in seconds for a particular exercise.
      *
      * @param textView                  TextView that displays the rest time for an exercise.
      */
-    public void setRestTime(TextView textView) {
+    private void setRestTime(TextView textView) {
         int restTime = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME));
         String restTimeString = "Rest: " + String.valueOf(restTime) + " seconds";
         textView.setText(restTimeString);
     }
-
 
     /**
      * Sets the text of a TextView to the last weight lifted by the user for a particular exercise.
      *
      * @param textView                  TextView that displays the current weight for an exercise.
      */
-    public void setWeight(TextView textView) {
+    private void setWeight(TextView textView) {
         double weight = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT));
         String weightString = "Last weight: " + String.valueOf(weight) + " lbs";
         textView.setText(weightString);

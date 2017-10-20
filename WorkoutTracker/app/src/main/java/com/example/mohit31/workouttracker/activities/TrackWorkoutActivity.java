@@ -5,16 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.mohit31.workouttracker.R;
-import com.example.mohit31.workouttracker.adapters.WeightListAdapter;
 import com.example.mohit31.workouttracker.database.WeightContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewContract;
 import com.example.mohit31.workouttracker.database.WorkoutViewDbHelper;
@@ -22,25 +18,19 @@ import com.example.mohit31.workouttracker.utils.DatabaseMethods;
 import com.example.mohit31.workouttracker.utils.DayAxisFormatter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TrackWorkoutActivity extends AppCompatActivity {
-    WeightListAdapter mWeightListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_workout);
 
         final Spinner mExerciseNameSpinner = (Spinner) findViewById(R.id.spinner_exercise_name);
-        final RecyclerView mWeightsRecyclerView = (RecyclerView) findViewById(R.id.rv_weight_list);
         final LineChart mWeightLineChart = (LineChart) findViewById(R.id.chart_line_weights);
         final TextView mNoWeightDataTextView = (TextView) findViewById(R.id.tv_no_weights);
 
@@ -57,11 +47,9 @@ public class TrackWorkoutActivity extends AppCompatActivity {
             exerciseNames.add(mCursor.getString(mCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME)));
         } while (mCursor.moveToNext());
 
-
         ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
                 R.layout.spinner_exercise_item, exerciseNames);
         mExerciseNameSpinner.setAdapter(mArrayAdapter);
-
 
         mExerciseNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,10 +71,10 @@ public class TrackWorkoutActivity extends AppCompatActivity {
                     }
                     List<Entry> entries = new ArrayList<Entry>();
                     mWeightsCursor.moveToFirst();
+
                     do {
                         long date = mWeightsCursor.getLong(mWeightsCursor.getColumnIndex(WeightContract.WeightEntry.COLUMN_DATE));
                         float weight = mWeightsCursor.getFloat(mWeightsCursor.getColumnIndex(WeightContract.WeightEntry.COLUMN_WEIGHT));
-
                         entries.add(new Entry(date, weight));
                     } while(mWeightsCursor.moveToNext());
 
@@ -96,6 +84,8 @@ public class TrackWorkoutActivity extends AppCompatActivity {
                     axis.setValueFormatter(new DayAxisFormatter());
 
                     mWeightLineChart.setData(lineData);
+
+                    // Customize chart attributes
                     mWeightLineChart.setDrawGridBackground(false);
                     mWeightLineChart.setGridBackgroundColor(Color.WHITE);
                     mWeightLineChart.getAxisLeft().setDrawGridLines(false);
@@ -104,6 +94,7 @@ public class TrackWorkoutActivity extends AppCompatActivity {
                     mWeightLineChart.getXAxis().setDrawGridLines(false);
                     mWeightLineChart.getDescription().setEnabled(false);
                     mWeightLineChart.getLegend().setEnabled(false);
+
                     mWeightLineChart.invalidate();
                     mWeightLineChart.setVisibility(View.VISIBLE);
                     mNoWeightDataTextView.setVisibility(View.INVISIBLE);
@@ -112,9 +103,7 @@ public class TrackWorkoutActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-
     }
 }

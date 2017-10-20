@@ -69,7 +69,6 @@ public class WorkoutViewActivity extends AppCompatActivity {
             }
         });
 
-
         mToAddExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

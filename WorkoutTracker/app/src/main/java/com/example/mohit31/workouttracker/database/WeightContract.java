@@ -6,6 +6,7 @@ import android.provider.BaseColumns;
  * Created by mohit31 on 9/30/17.
  */
 public class WeightContract {
+
     private WeightContract() {}
 
     public static class WeightEntry implements BaseColumns {
