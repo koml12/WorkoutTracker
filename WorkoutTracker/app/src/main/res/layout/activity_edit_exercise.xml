@@ -51,14 +51,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/et_edit_exercise_rest_time"
             android:inputType="numberDecimal"
-            android:hint="@string/weight"
+            android:hint="@string/weight"/>
+
+    <EditText
+            android:id="@+id/et_edit_exercise_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_edit_exercise_weight"
+            android:hint="@string/notes"
             android:paddingBottom="24dp"/>
 
     <Button
             android:id="@+id/btn_update_exercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_edit_exercise_weight"
+            android:layout_below="@id/et_edit_exercise_notes"
             android:layout_centerInParent="true"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"

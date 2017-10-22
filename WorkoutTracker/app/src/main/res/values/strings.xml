@@ -26,6 +26,7 @@
     <string name="start">Start</string>
     <string name="track_workout">Track</string>
     <string name="no_weight_data">No weight data has been collected yet!</string>
+    <string name="notes">Notes</string>
     <string-array name="hamburger_drawer">
         <item>Workouts</item>
         <item>Weights</item>

@@ -19,6 +19,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     private EditText mRepsEditText;
     private EditText mSetsEditText;
     private EditText mRestTimeEditText;
+    private EditText mNotesEditText;
     private Button mAddExerciseButton;
 
     @Override
@@ -30,6 +31,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         mRepsEditText = (EditText) findViewById(R.id.et_reps);
         mSetsEditText = (EditText) findViewById(R.id.et_sets);
         mRestTimeEditText = (EditText) findViewById(R.id.et_rest_time);
+        mNotesEditText = (EditText) findViewById(R.id.et_exercise_notes);
         mAddExerciseButton = (Button) findViewById(R.id.btn_add_exercise);
 
         Intent intent = getIntent();
@@ -47,6 +49,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 String repsString = mRepsEditText.getText().toString();
                 String setsString = mSetsEditText.getText().toString();
                 String restTimeString = mRestTimeEditText.getText().toString();
+                String notes = mNotesEditText.getText().toString();
 
                 // Only check for empty string, since getText() will never return null.
                 if (exerciseName.trim().isEmpty() || repsString.trim().isEmpty() || setsString.trim().isEmpty() || restTimeString.trim().isEmpty()) {
@@ -59,7 +62,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 int setsInt = Integer.parseInt(setsString);
                 int restTimeInt = Integer.parseInt(restTimeString);
 
-                addExercise(exerciseName, repsInt, setsInt, restTimeInt, key, database);
+                addExercise(exerciseName, repsInt, setsInt, restTimeInt, notes, key, database);
 
                 Intent intent = new Intent(getApplicationContext(), WorkoutViewActivity.class);
                 intent.putExtra("WORKOUT_KEY", key);
@@ -71,12 +74,13 @@ public class AddExerciseActivity extends AppCompatActivity {
     }
 
 
-    public long addExercise(String name, int reps, int sets, int rest, int key, SQLiteDatabase database) {
+    public long addExercise(String name, int reps, int sets, int rest, String notes, int key, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_EXERCISE_NAME, name);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REPS, reps);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS, sets);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME, rest);
+        contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES, notes);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY, key);
         contentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, 0);
 

@@ -21,7 +21,8 @@ public class WorkoutViewDbHelper extends SQLiteOpenHelper {
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_SETS + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_REST_TIME + " INTEGER, "
             + WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT + " REAL, "
-            + WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY + " INTEGER);";
+            + WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY + " INTEGER, "
+            + WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES + " TEXT);";
 
     private final String CREATE_WEIGHT_TABLE = "CREATE TABLE " + WeightContract.WeightEntry.TABLE_NAME + " ("
             + WeightContract.WeightEntry.COLUMN_DATE + " INTEGER, "

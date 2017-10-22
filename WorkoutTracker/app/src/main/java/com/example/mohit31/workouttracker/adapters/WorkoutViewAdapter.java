@@ -29,6 +29,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         TextView mRepsSetsTextView;
         TextView mRestTimeTextView;
         TextView mWeightTextView;
+        TextView mNotesTextView;
 
         WorkoutViewViewHolder(final View itemView) {
             super(itemView);
@@ -36,6 +37,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
             mRepsSetsTextView = (TextView) itemView.findViewById(R.id.tv_exercise_reps_sets);
             mRestTimeTextView = (TextView) itemView.findViewById(R.id.tv_exercise_rest);
             mWeightTextView = (TextView) itemView.findViewById(R.id.tv_exercise_item_weight);
+            mNotesTextView = (TextView) itemView.findViewById(R.id.tv_exercise_notes);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -52,6 +54,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
                     String id = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
                     int key = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY));
                     String[] weightArray = mWeightTextView.getText().toString().split(" ");
+                    String notes = mNotesTextView.getText().toString().substring(7);
 
                     Intent intent = new Intent(mContext, EditExerciseActivity.class);
                     intent.putExtra("EXERCISE_NAME", exerciseName);
@@ -61,6 +64,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
                     intent.putExtra("EXERCISE_ID", id);
                     intent.putExtra("WORKOUT_KEY", key);
                     intent.putExtra("WEIGHT", weightArray[2]);
+                    intent.putExtra("NOTES", notes);
 
                     mContext.startActivity(intent);
 
@@ -90,6 +94,7 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         setRepsAndSets(holder.mRepsSetsTextView);
         setRestTime(holder.mRestTimeTextView);
         setWeight(holder.mWeightTextView);
+        setNotes(holder.mNotesTextView);
     }
 
     /**
@@ -135,6 +140,17 @@ public class WorkoutViewAdapter extends RecyclerView.Adapter<WorkoutViewAdapter.
         double weight = mExerciseDbCursor.getInt(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT));
         String weightString = "Last weight: " + String.valueOf(weight) + " lbs";
         textView.setText(weightString);
+    }
+
+    /**
+     * Sets the text of a TextView to the miscellaneous notes for a particular exercise.
+     *
+     * @param textView                  TextView that displays the current notes for an exercise.
+     */
+    private void setNotes(TextView textView) {
+        String notes = mExerciseDbCursor.getString(mExerciseDbCursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES));
+        notes = "Notes: " + notes;
+        textView.setText(notes);
     }
 
     /**

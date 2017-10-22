@@ -11,12 +11,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.mohit31.workouttracker.R;
 import com.example.mohit31.workouttracker.database.WeightContract;
@@ -264,30 +266,51 @@ public class StartWorkoutActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Log Weight");
 
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
         final EditText logWeightInput = new EditText(context);
+        logWeightInput.setHint("Weight");
         logWeightInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        builder.setView(logWeightInput);
+        linearLayout.addView(logWeightInput);
+
+        final EditText exerciseNotes = new EditText(context);
+        exerciseNotes.setHint("Notes");
+        exerciseNotes.setInputType(InputType.TYPE_CLASS_TEXT);
+        linearLayout.addView(exerciseNotes);
+
+        builder.setView(linearLayout);
+
 
         builder.setPositiveButton("LOG", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                double weight =  Double.parseDouble(logWeightInput.getText().toString());
+                boolean validWeight = true;
+                double weight = 0;
+                if (logWeightInput.getText().toString().trim().equals("")) {
+                    validWeight = false;
+                } else {
+                    weight =  Double.parseDouble(logWeightInput.getText().toString());
+                }
 
-                // I have no idea why the cursor needs to move back one and then forward one, but the app breaks without it.
-                cursor.moveToPrevious();
-                long unixTimeStamp = new Date().getTime();
+                if (validWeight) {
+                    // I have no idea why the cursor needs to move back one and then forward one, but the app breaks without it.
+                    cursor.moveToPrevious();
+                    String notes = exerciseNotes.getText().toString();
+                    long unixTimeStamp = new Date().getTime();
+                    String id = cursor.getString(cursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
+                    ContentValues contentValues = new ContentValues();
+                    ContentValues exerciseContentValues = new ContentValues();
+                    contentValues.put(WeightContract.WeightEntry.COLUMN_EXERCISE, id);
+                    contentValues.put(WeightContract.WeightEntry.COLUMN_DATE, unixTimeStamp);
+                    contentValues.put(WeightContract.WeightEntry.COLUMN_WEIGHT, weight);
+                    exerciseContentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES, notes);
+                    exerciseContentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, weight);
+                    database.insert(WeightContract.WeightEntry.TABLE_NAME, null, contentValues);
+                    database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, exerciseContentValues, "_ID = " + id, null);
 
-                String id = cursor.getString(cursor.getColumnIndex(WorkoutViewContract.WorkoutViewEntry._ID));
-                ContentValues contentValues = new ContentValues();
-                ContentValues exerciseContentValues = new ContentValues();
-                contentValues.put(WeightContract.WeightEntry.COLUMN_EXERCISE, id);
-                contentValues.put(WeightContract.WeightEntry.COLUMN_DATE, unixTimeStamp);
-                contentValues.put(WeightContract.WeightEntry.COLUMN_WEIGHT, weight);
-                exerciseContentValues.put(WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT, weight);
-                database.insert(WeightContract.WeightEntry.TABLE_NAME, null, contentValues);
-                database.update(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME, exerciseContentValues, "_ID = " + id, null);
-
-                cursor.moveToNext();
+                    cursor.moveToNext();
+                }
             }
         });
 

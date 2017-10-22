@@ -29,6 +29,7 @@ public class DatabaseMethods {
                 WorkoutViewContract.WorkoutViewEntry._ID,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT,
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES,
         };
         return database.query(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME,
                 columns,
@@ -50,7 +51,8 @@ public class DatabaseMethods {
         String[] columns = {
                 WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_NAME,
                 WorkoutListContract.WorkoutListEntry.COLUMN_WORKOUT_KEY,
-                WorkoutListContract.WorkoutListEntry._ID};
+                WorkoutListContract.WorkoutListEntry._ID
+        };
         return database.query(WorkoutListContract.WorkoutListEntry.TABLE_NAME,
                 columns,
                 null,
@@ -77,6 +79,7 @@ public class DatabaseMethods {
                 WorkoutViewContract.WorkoutViewEntry._ID,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_WORKOUT_KEY,
                 WorkoutViewContract.WorkoutViewEntry.COLUMN_WEIGHT,
+                WorkoutViewContract.WorkoutViewEntry.COLUMN_NOTES,
         };
         return database.query(WorkoutViewContract.WorkoutViewEntry.TABLE_NAME,
                 columns,

@@ -43,11 +43,17 @@
             android:hint="@string/rest_time"
             android:inputType="number"/>
 
+    <EditText
+            android:id="@+id/et_exercise_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_rest_time"
+            android:hint="@string/notes"/>
     <Button
             android:id="@+id/btn_add_exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_rest_time"
+            android:layout_below="@id/et_exercise_notes"
             android:text="@string/add_exercise"/>
 
 
